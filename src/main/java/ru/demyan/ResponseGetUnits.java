@@ -1,6 +1,7 @@
 package ru.demyan;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.util.List;
@@ -62,6 +63,7 @@ class Zombie {
 }
 
 @Data
+@AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 class Position {
     private int x;
