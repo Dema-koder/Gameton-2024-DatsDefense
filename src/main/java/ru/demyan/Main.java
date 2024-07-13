@@ -9,6 +9,9 @@ import org.apache.http.client.methods.HttpPut;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import javax.lang.model.type.NullType;
 import java.util.Collections;
@@ -146,42 +149,42 @@ public class Main {
         nodes.add(table[x_start+8][y_start+7]);
 
         List<Pair<Integer, Integer>> to_come = new ArrayList<>();
-        if(nodes.get(4).getType()!=TypeCell.EMPTY && nodes.get(5).getType()!=TypeCell.EMPTY){
+        if(nodes.get(4).getType()==TypeCell.DEFAULT && nodes.get(5).getType()==TypeCell.DEFAULT){
             to_come.add(new Pair<Integer, Integer>(x_start+1, y_start-1));
         }
-        if(nodes.get(6).getType()!=TypeCell.EMPTY && nodes.get(7).getType()!=TypeCell.EMPTY){
+        if(nodes.get(6).getType()==TypeCell.DEFAULT && nodes.get(7).getType()==TypeCell.DEFAULT){
             to_come.add(new Pair<Integer, Integer>(x_start-1, y_start));
         }
-        if(nodes.get(8).getType()!=TypeCell.EMPTY && nodes.get(9).getType()!=TypeCell.EMPTY){
+        if(nodes.get(8).getType()==TypeCell.DEFAULT && nodes.get(9).getType()==TypeCell.DEFAULT){
             to_come.add(new Pair<Integer, Integer>(x_start, y_start+2));
         }
-        if(nodes.get(10).getType()!=TypeCell.EMPTY && nodes.get(11).getType()!=TypeCell.EMPTY){
+        if(nodes.get(10).getType()==TypeCell.DEFAULT && nodes.get(11).getType()==TypeCell.DEFAULT){
             to_come.add(new Pair<Integer, Integer>(x_start+2, y_start+1));
         }
 
-        if(nodes.get(12).getType()!=TypeCell.EMPTY && nodes.get(13).getType()!=TypeCell.EMPTY){
+        if(nodes.get(12).getType()==TypeCell.DEFAULT && nodes.get(13).getType()==TypeCell.DEFAULT){
             to_come.add(new Pair<Integer, Integer>(x_start-2, y_start-4));
         }
-        if(nodes.get(13).getType()!=TypeCell.EMPTY && nodes.get(14).getType()!=TypeCell.EMPTY){
+        if(nodes.get(13).getType()==TypeCell.DEFAULT && nodes.get(14).getType()==TypeCell.DEFAULT){
             to_come.add(new Pair<Integer, Integer>(x_start+4, y_start-4));
         }
-        if(nodes.get(15).getType()!=TypeCell.EMPTY && nodes.get(16).getType()!=TypeCell.EMPTY){
+        if(nodes.get(15).getType()==TypeCell.DEFAULT && nodes.get(16).getType()==TypeCell.DEFAULT){
             to_come.add(new Pair<Integer, Integer>(x_start-4, y_start-3));
         }
-        if(nodes.get(15).getType()!=TypeCell.EMPTY && nodes.get(17).getType()!=TypeCell.EMPTY){
+        if(nodes.get(15).getType()==TypeCell.DEFAULT && nodes.get(17).getType()==TypeCell.DEFAULT){
             to_come.add(new Pair<Integer, Integer>(x_start-4, y_start+3));
         }
 
-        if(nodes.get(18).getType()!=TypeCell.EMPTY && nodes.get(19).getType()!=TypeCell.EMPTY){
+        if(nodes.get(18).getType()==TypeCell.DEFAULT && nodes.get(19).getType()==TypeCell.DEFAULT){
             to_come.add(new Pair<Integer, Integer>(x_start-3, y_start+5));
         }
-        if(nodes.get(19).getType()!=TypeCell.EMPTY && nodes.get(20).getType()!=TypeCell.EMPTY){
+        if(nodes.get(19).getType()==TypeCell.DEFAULT && nodes.get(20).getType()==TypeCell.DEFAULT){
             to_come.add(new Pair<Integer, Integer>(x_start+3, y_start+5));
         }
-        if(nodes.get(21).getType()!=TypeCell.EMPTY && nodes.get(22).getType()!=TypeCell.EMPTY){
+        if(nodes.get(21).getType()==TypeCell.DEFAULT && nodes.get(22).getType()==TypeCell.DEFAULT){
             to_come.add(new Pair<Integer, Integer>(x_start+5, y_start-2));
         }
-        if(nodes.get(22).getType()!=TypeCell.EMPTY && nodes.get(23).getType()!=TypeCell.EMPTY){
+        if(nodes.get(22).getType()==TypeCell.DEFAULT && nodes.get(23).getType()==TypeCell.DEFAULT){
             to_come.add(new Pair<Integer, Integer>(x_start+5, y_start+4));
         }
         List<Pair<Integer, Integer>> to_final_come = new ArrayList<>();
@@ -287,6 +290,7 @@ public class Main {
             }
             return the_best_place.toString();
         }
+        return "Nothing";
     }
     private static String gameRound() {
         try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
@@ -362,8 +366,24 @@ public class Main {
     }
 
     public static void main(String[] args) {
+        ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
         while (true) {
+            // Define the task to be scheduled
+            Runnable apiRequestTask = new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        // Make the API request here
 
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            };
+
+            // Schedule the task to run every 2 seconds with an initial delay of 0 seconds
+            scheduler.scheduleAtFixedRate(apiRequestTask, 0, 2, TimeUnit.SECONDS);
         }
+
     }
 }

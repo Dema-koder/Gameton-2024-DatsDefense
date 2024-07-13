@@ -24,5 +24,6 @@ public class Cell {
                 return "#";
             }
         }
+        return "";
     }
 }
