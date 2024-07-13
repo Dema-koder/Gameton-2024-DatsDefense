@@ -5,4 +5,5 @@ public enum TypeCell {
     ZSPOT,
     DEFAULT,
     TOWNHALL,
+    NON,
 }

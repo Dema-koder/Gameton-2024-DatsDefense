@@ -23,7 +23,10 @@ public class Cell {
             case ZSPOT -> {
                 return "#";
             }
+            case NON -> {
+                return "$";
+            }
         }
-        return "";
+        return null;
     }
 }
